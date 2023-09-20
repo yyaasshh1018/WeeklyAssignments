@@ -49,6 +49,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
+  String _result = "----";
 
   void _incrementCounter() {
     setState(() {
@@ -58,6 +59,42 @@ class _MyHomePageState extends State<MyHomePage> {
       // _counter without calling setState(), then the build method would not be
       // called again, and so nothing would appear to happen.
       _counter++;
+    });
+  }
+
+  void _decrementCounter() {
+    setState(() {
+      // This call to setState tells the Flutter framework that something has
+      // changed in this State, which causes it to rerun the build method below
+      // so that the display can reflect the updated values. If we changed
+      // _counter without calling setState(), then the build method would not be
+      // called again, and so nothing would appear to happen.
+      _counter--;
+    });
+  }
+
+  void _resetCounter() {
+    setState(() {
+      // This call to setState tells the Flutter framework that something has
+      // changed in this State, which causes it to rerun the build method below
+      // so that the display can reflect the updated values. If we changed
+      // _counter without calling setState(), then the build method would not be
+      // called again, and so nothing would appear to happen.
+      _counter = 0;
+    });
+  }
+
+  void fizzbuzz() {
+    setState(() {
+      if ((_counter % 3 == 0) & (_counter % 5 == 0)) {
+        _result = "fizzbuzz";
+      } else if (_counter % 3 == 0) {
+        _result = "fizz";
+      } else if (_counter % 5 == 0) {
+        _result = "buzz";
+      } else {
+        _result = "----";
+      }
     });
   }
 
@@ -95,20 +132,39 @@ class _MyHomePageState extends State<MyHomePage> {
           // horizontal).
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
+            FloatingActionButton(
+              onPressed: () {
+                _incrementCounter();
+                fizzbuzz();
+              },
+              tooltip: 'Increment',
+              child: const Icon(Icons.exposure_plus_1),
             ),
             Text(
               '$_counter',
               style: Theme.of(context).textTheme.headline4,
             ),
+            Text(
+              _result,
+              style: Theme.of(context).textTheme.headline4,
+            ),
+            FloatingActionButton(
+              onPressed: () {
+                _decrementCounter();
+                fizzbuzz();
+              },
+              tooltip: 'Decrement',
+              child: const Icon(Icons.exposure_neg_1),
+            ),
           ],
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
+        onPressed: () {
+          _resetCounter();
+        },
+        tooltip: 'Reset',
+        child: const Text("Reset"),
       ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
