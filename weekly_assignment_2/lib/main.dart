@@ -48,16 +48,25 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
+  String word1 = "";
+  String word2 = "";
+  String result = "";
 
-  void _incrementCounter() {
+  void concatenate() {
     setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
+      result = word1 + word2;
+    });
+  }
+
+  void firstword(String value) {
+    setState(() {
+      word1 = value;
+    });
+  }
+
+  void secondword(String value) {
+    setState(() {
+      word2 = value;
     });
   }
 
@@ -95,21 +104,38 @@ class _MyHomePageState extends State<MyHomePage> {
           // horizontal).
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: TextField(
+                decoration: const InputDecoration(
+                  border: OutlineInputBorder(),
+                  labelText: 'First Word',
+                ),
+                onChanged: firstword,
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: TextField(
+                decoration: const InputDecoration(
+                  border: OutlineInputBorder(),
+                  labelText: 'Second Word',
+                ),
+                onChanged: secondword,
+              ),
             ),
             Text(
-              '$_counter',
+              "Result of concatenation: $result",
               style: Theme.of(context).textTheme.headline4,
             ),
           ],
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
-    );
+        onPressed: concatenate,
+        tooltip: 'Concatenate',
+        child: const Text("Add"),
+      ),
+    ); // This trailing comma makes auto-formatting nicer for build methods.
   }
 }
