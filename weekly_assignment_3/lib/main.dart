@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'dart:math' as math;
+import 'dart:core';
 
 void main() {
   runApp(const MyApp());
@@ -48,17 +50,56 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
+  void removeitem(int input) {
     setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
+      indexes.removeAt(input);
     });
+  }
+
+  List<String> indexes = [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5",
+    "6",
+    "7",
+    "8",
+    "9",
+    "10",
+    "11",
+    "12",
+    "13",
+    "14",
+    "15",
+    "16",
+    "17",
+    "18",
+    "19",
+    "20"
+  ];
+
+  Color setColor() {
+    int value = math.Random().nextInt(255);
+    int change = math.Random().nextInt(255);
+    Color randColor;
+    if (value > 120) {
+      randColor = Color.fromRGBO(
+        value % change * 1,
+        value % change * 2,
+        value % change * 3,
+        1.0,
+      );
+    } else {
+      randColor = Color.fromRGBO(
+        value % change * 3,
+        value % change * 2,
+        value % change * 1,
+        1.0,
+      );
+    }
+
+    return randColor;
   }
 
   @override
@@ -75,40 +116,28 @@ class _MyHomePageState extends State<MyHomePage> {
         // the App.build method, and use it to set our appbar title.
         title: Text(widget.title),
       ),
-      body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
-        child: Column(
-          // Column is also a layout widget. It takes a list of children and
-          // arranges them vertically. By default, it sizes itself to fit its
-          // children horizontally, and tries to be as tall as its parent.
-          //
-          // Invoke "debug painting" (press "p" in the console, choose the
-          // "Toggle Debug Paint" action from the Flutter Inspector in Android
-          // Studio, or the "Toggle Debug Paint" command in Visual Studio Code)
-          // to see the wireframe for each widget.
-          //
-          // Column has various properties to control how it sizes itself and
-          // how it positions its children. Here we use mainAxisAlignment to
-          // center the children vertically; the main axis here is the vertical
-          // axis because Columns are vertical (the cross axis would be
-          // horizontal).
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headline4,
-            ),
-          ],
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
+      body: ListView.separated(
+        itemCount: indexes.length,
+        itemBuilder: (BuildContext context, int index) {
+          return ListTile(
+              leading: Icon(
+                Icons.circle,
+                color: setColor(),
+                size: 50.0,
+              ),
+              trailing: ElevatedButton(
+                onPressed: () {
+                  removeitem(index);
+                },
+                style: const ButtonStyle(
+                  iconSize: MaterialStatePropertyAll(20),
+                ),
+                child: const Icon(Icons.delete),
+              ),
+              title: const Text("I am a ListTile"),
+              subtitle: Text("Index: ${indexes[index]}"));
+        },
+        separatorBuilder: (context, index) => const Divider(),
       ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
